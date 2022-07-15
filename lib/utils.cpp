@@ -15,11 +15,18 @@ Screenshot::Screenshot() : screenshotLabel(new QLabel(this)) {
     mainLayout->addWidget(screenshotLabel);
 
     QGroupBox *optionsGroupBox = new QGroupBox(tr("Options"), this);
+
+    delaySpinBox = new QSpinBox(optionsGroupBox);
+    delaySpinBox->setSuffix(tr(" s"));
+    delaySpinBox->setMaximum(60);
+
+    connect(delaySpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCheckbox()));
     
     hideThisWindowCheckbox = new QCheckBox(tr("Hide This Window"), optionsGroupBox);
 
     QGridLayout *optionsGroupBoxLayout = new QGridLayout(optionsGroupBox);
     optionsGroupBoxLayout->addWidget(new QLabel(tr("Delay:")), 0, 0);
+    optionsGroupBoxLayout->addWidget(delaySpinBox, 0, 1);
     optionsGroupBoxLayout->addWidget(hideThisWindowCheckbox, 1, 0, 1, 2);
 
     mainLayout->addWidget(optionsGroupBox);
@@ -40,6 +47,7 @@ Screenshot::Screenshot() : screenshotLabel(new QLabel(this)) {
     mainLayout->addLayout(buttonsLayout);
 
     shootScreen();
+    delaySpinBox->setValue(5);
     setWindowTitle(tr("Screenshot"));
     resize(300, 200);
 }
@@ -57,6 +65,7 @@ void Screenshot::newScreenshot() {
         hide();
     }
     newScreenshotButton->setDisabled(true);
+    QTimer::singleShot(delaySpinBox->value() * 1000, this, SLOT(shootScreen()));
 }
 
 void Screenshot::saveScreenshot() {
@@ -97,6 +106,10 @@ void Screenshot::shootScreen() {
     if (!screen) {
         return;
     }
+
+    if (delaySpinBox->value() != 0) {
+        QApplication::beep();
+    }
     originalPixmap = screen->grabWindow(0);
     updateScreenshotLabel();
 
@@ -107,7 +120,12 @@ void Screenshot::shootScreen() {
 }
 
 void Screenshot::updateCheckbox() {
-    hideThisWindowCheckbox->setDisabled(false);
+    if (delaySpinBox->value() == 0) {
+        hideThisWindowCheckbox->setChecked(false);
+        hideThisWindowCheckbox->setDisabled(true);
+    } else {
+        hideThisWindowCheckbox->setDisabled(false);
+    }
 }
 
 void Screenshot::updateScreenshotLabel() {

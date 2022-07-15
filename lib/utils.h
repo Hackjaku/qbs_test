@@ -19,6 +19,8 @@
 #include <QtCore/QFile>
 #include <QtWidgets/QFileDialog>
 #include <QtGui/QImageWriter>
+#include <QtWidgets/QSpinBox>
+#include <QtCore/QTimer>
 
 class Utils {
 public:
@@ -47,6 +49,7 @@ private:
     QLabel *screenshotLabel;
     QCheckBox *hideThisWindowCheckbox;
     QPushButton *newScreenshotButton;
+    QSpinBox *delaySpinBox;
 };
 
 #endif // UTILS_H
