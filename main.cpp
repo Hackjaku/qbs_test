@@ -2,6 +2,14 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
 
+/*
+    COMMANDS TO CREATE PROJECT AND BUILD
+    qmake -project
+    cd build
+    qmake ..
+    make
+*/
+
 int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
