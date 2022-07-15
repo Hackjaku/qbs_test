@@ -6,7 +6,15 @@
 
 /*
     COMMANDS TO CREATE PROJECT AND BUILD
+
     qmake -project
+
+    *** add to .pro file ***
+    QT += core gui
+    greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+    *** end ***
+    
+    mkdir build
     cd build
     qmake ..
     make
