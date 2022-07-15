@@ -14,6 +14,11 @@
 #include <QtWidgets/QPushButton>
 #include <QtGui/QWindow>
 #include <QtGui/QScreen>
+#include <QtCore/QStandardPaths>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtWidgets/QFileDialog>
+#include <QtGui/QImageWriter>
 
 class Utils {
 public:

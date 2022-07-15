@@ -60,7 +60,33 @@ void Screenshot::newScreenshot() {
 }
 
 void Screenshot::saveScreenshot() {
+    const QString format = "png";
+    QString initilaPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (initilaPath.isEmpty()) {
+        initilaPath = QDir::currentPath();
+    }
+    initilaPath += tr("/untitled.") + format;
 
+    QFileDialog fileDialog(this, tr("Save As"), initilaPath);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setDirectory(initilaPath);
+    QStringList mimeTypes;
+    const QList<QByteArray> supportedMimeTypes = QImageWriter::supportedMimeTypes();
+    for (const QByteArray &mimeType : supportedMimeTypes) {
+        mimeTypes.append(mimeType);
+    }
+    fileDialog.setMimeTypeFilters(mimeTypes);
+    fileDialog.selectMimeTypeFilter("image/" + format);
+    fileDialog.setDefaultSuffix(format);
+
+    if (fileDialog.exec() != QDialog::Accepted) {
+        return;
+    }
+    const QString fileName = fileDialog.selectedFiles().first();
+    if (!originalPixmap.save(fileName)) {
+        QMessageBox::warning(this, tr("Save Error"), tr("Failed to save image!"));
+    }
 }
 
 void Screenshot::shootScreen() {
