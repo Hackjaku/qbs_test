@@ -134,4 +134,4 @@ void Screenshot::updateScreenshotLabel() {
 
 void foo() {
     std::cout << "foo\n";
-}
+} // boredom
