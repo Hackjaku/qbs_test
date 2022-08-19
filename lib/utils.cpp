@@ -131,7 +131,3 @@ void Screenshot::updateCheckbox() {
 void Screenshot::updateScreenshotLabel() {
     screenshotLabel->setPixmap(originalPixmap.scaled(screenshotLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
-
-void foo() {
-    std::cout << "foo\n";
-} // boredom
